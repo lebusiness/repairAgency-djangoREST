@@ -39,11 +39,11 @@ class CategoriesAPIView(mixins.CreateModelMixin,
     #   # вывести только конкретный
     #   return Category.objects.filter(pk=pk)
 
-    # # добавляет путь categories/category (тут реализуем вывод только названий категорий)
-    # @action(methods=['get'], detail=False)
-    # def category(self, request):
-    #   cats = Category.objects.all()
-    #   return Response({'cats': [c.name for c in cats]})
+    # добавляет путь categories/category (тут реализуем вывод только названий категорий)
+    @action(methods=['get'], detail=False)
+    def short(self, request):
+        cats = Category.objects.all()
+        return Response({'cats': [{'id': c.id, 'name': c.name, 'slug': c.slug, 'descr': c.descr, 'img': 'media/'+str(c.img)} for c in cats]})
 
 
 class FeedbackAPIView(mixins.CreateModelMixin,
@@ -78,15 +78,21 @@ class CartAPIView(mixins.CreateModelMixin,
         instance = self.get_object()
         serializer = self.get_serializer(instance)
 
-        # выцепить id услуги в массив
-        arr = []
+        # выцепить id услуги и id связи в массив
+        serviceIdArr = []
+        relationIdArr = []
         for i in serializer.data['rel_services']:
-            arr.append(i['service'])
-        logger.info(arr)
+            serviceIdArr.append(i['service'])
+            relationIdArr.append(i['id'])
 
-        servicesORM = Service.objects.all().filter(pk__in=arr)
+
+        servicesORM = Service.objects.all().filter(pk__in=serviceIdArr)
         services = ServicesSerializer(servicesORM, many=True)
 
+        index = 0
+        for i in services.data:
+            i.update({'relationId': relationIdArr[index]})
+            index += 1
         return Response(services.data)
 
 

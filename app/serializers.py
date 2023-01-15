@@ -10,7 +10,7 @@ class ServicesSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Service
-    fields = ('name', 'price', 'summary', 'descr', 'img')
+    fields = ('id', 'name', 'price', 'summary', 'descr', 'img', 'slug')
 
 class RelationCartServiceSerializer(serializers.ModelSerializer):
 
@@ -22,7 +22,7 @@ class FeedbacksSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Feedback
-    fields = ('name', 'text', 'category')
+    fields = ('name', 'text', 'category', 'valuation')
 
 class CategoriesSerializer(serializers.ModelSerializer):
   # из таблицы Category возращает поля field
@@ -37,3 +37,9 @@ class CartSerializer(serializers.ModelSerializer):
   class Meta:
     model = Cart
     fields = ('id', 'user', 'rel_services')
+
+class CategorySerializer(serializers.ModelSerializer):
+  # из таблицы Category возращает поля field
+  class Meta:
+    model = Category
+    fields = ('id', 'name')
