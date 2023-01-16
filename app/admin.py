@@ -26,8 +26,7 @@ class RelationCartServiceAdmin(admin.ModelAdmin):
     list_display = ('id','service','cart')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('service',)
-
+    list_display = ('id', 'services', 'number', 'price', 'user')
  
 # class UserAdmin(admin.ModelAdmin):
 #     list_display = ('name', 'number', 'address', 'password', 'order', 'cart')

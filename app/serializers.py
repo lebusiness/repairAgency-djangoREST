@@ -31,6 +31,9 @@ class CategoriesSerializer(serializers.ModelSerializer):
   class Meta:
     model = Category
     fields = ('id', 'name', 'descr', 'slug', 'img', 'services', 'feedbacks')
+    # extra_kwargs = {
+    #   'id': {'source': 'name', 'read_only': True}
+    # }
 
 class CartSerializer(serializers.ModelSerializer):
   rel_services = RelationCartServiceSerializer(many=True, read_only=True)
@@ -43,3 +46,9 @@ class CategorySerializer(serializers.ModelSerializer):
   class Meta:
     model = Category
     fields = ('id', 'name')
+
+class OrderSerializer(serializers.ModelSerializer):
+  # из таблицы Category возращает поля field
+  class Meta:
+    model = Order
+    fields = ('services', 'number', 'price', 'user', 'address')

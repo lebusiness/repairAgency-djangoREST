@@ -18,14 +18,18 @@ from django.urls import path, include, re_path
 from rest_framework import routers
 from app.views import *
 from app import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 router = routers.DefaultRouter()
 # позволяет прослушивать 'root' и его get_queryset(/<id/int>)
-router.register(r'categories', CategoriesAPIView, basename='categories')
-router.register(r'feedbacks', FeedbackAPIView, basename='feedbacks')
-router.register(r'services', ServiceAPIView, basename='services')
-router.register(r'cart', CartAPIView, basename='cart')
-router.register(r'cart-order', RelationCartServiceView, basename='cart-order')
+router.register(r'categories', CategoriesAPIView)
+router.register(r'feedbacks', FeedbackAPIView)
+router.register(r'services', ServiceAPIView)
+router.register(r'cart', CartAPIView)
+router.register(r'cart-order', RelationCartServiceView)
+router.register(r'orders', OrderView)
+
 # маршрутизация
 urlpatterns = [
     # re_path('media/photos/categories/([0-9]{4})', views, name = 'year_archive'),
@@ -33,4 +37,4 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/auth/', include('djoser.urls')),  
     re_path(r'^auth/', include('djoser.urls.authtoken')), 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

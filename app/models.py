@@ -89,11 +89,13 @@ class RelationCartService(models.Model):
 class Order(models.Model):
     services = models.TextField(blank=True, verbose_name="Услуги")
     number = models.CharField(max_length=100, db_index=True, verbose_name="Номер")
+    price = models.IntegerField(verbose_name="Цена")
+    address = models.CharField(max_length=100, db_index=True, verbose_name="Адрес", default="")
 
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Пользователь", default="")
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Пользователь", default="")
     
     def __str__(self):
-        return self.name 
+        return str(self.user)
 
     class Meta:
         verbose_name = 'Заказ'
