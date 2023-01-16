@@ -87,8 +87,9 @@ class RelationCartService(models.Model):
 
 # Заказ
 class Order(models.Model):
-    service = models.ForeignKey('Service', on_delete=models.PROTECT, verbose_name="Заказ")
-    
+    services = models.TextField(blank=True, verbose_name="Услуги")
+    number = models.CharField(max_length=100, db_index=True, verbose_name="Номер")
+
     user_id = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Пользователь", default="")
     
     def __str__(self):

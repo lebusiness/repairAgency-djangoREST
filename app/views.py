@@ -43,7 +43,7 @@ class CategoriesAPIView(mixins.CreateModelMixin,
     @action(methods=['get'], detail=False)
     def short(self, request):
         cats = Category.objects.all()
-        return Response({'cats': [{'id': c.id, 'name': c.name, 'slug': c.slug, 'descr': c.descr, 'img': 'media/'+str(c.img)} for c in cats]})
+        return Response([{'id': c.id, 'name': c.name, 'slug': c.slug, 'descr': c.descr, 'img': 'media/'+str(c.img)} for c in cats])
 
 
 class FeedbackAPIView(mixins.CreateModelMixin,
@@ -85,7 +85,6 @@ class CartAPIView(mixins.CreateModelMixin,
             serviceIdArr.append(i['service'])
             relationIdArr.append(i['id'])
 
-
         servicesORM = Service.objects.all().filter(pk__in=serviceIdArr)
         services = ServicesSerializer(servicesORM, many=True)
 
@@ -105,3 +104,13 @@ class RelationCartServiceView(mixins.CreateModelMixin,
 
     serializer_class = RelationCartServiceSerializer
     queryset = RelationCartService.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        import logging
+        logger = logging.getLogger("mylogger")
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        logger.info('_______________')
+        logger.info(instance)
+        self.perform_destroy(instance)
+        return Response(serializer.data)

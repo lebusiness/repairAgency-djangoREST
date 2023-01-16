@@ -22,7 +22,7 @@ class FeedbacksSerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Feedback
-    fields = ('name', 'text', 'category', 'valuation')
+    fields = ('name', 'text', 'category', 'valuation', 'id')
 
 class CategoriesSerializer(serializers.ModelSerializer):
   # из таблицы Category возращает поля field

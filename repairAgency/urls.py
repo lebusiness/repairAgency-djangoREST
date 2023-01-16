@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework import routers
 from app.views import *
+from app import views
 
 router = routers.DefaultRouter()
 # позволяет прослушивать 'root' и его get_queryset(/<id/int>)
@@ -27,6 +28,7 @@ router.register(r'cart', CartAPIView, basename='cart')
 router.register(r'cart-order', RelationCartServiceView, basename='cart-order')
 # маршрутизация
 urlpatterns = [
+    # re_path('media/photos/categories/([0-9]{4})', views, name = 'year_archive'),
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
     path('api/v1/auth/', include('djoser.urls')),  
