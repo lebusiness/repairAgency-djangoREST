@@ -35,12 +35,10 @@ class CategoriesAPIView(mixins.CreateModelMixin,
                         mixins.UpdateModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
-    # класс, отвечающий за кол-во ключей и за конверт в JSON
     serializer_class = CategoriesSerializer
     lookup_field = "slug"
     queryset = Category.objects.all()
     pagination_class = PaginagitonCategories
-    # только категории
 
     @action(methods=['get'], detail=False)
     def short(self, request):
@@ -51,11 +49,12 @@ class CategoriesAPIView(mixins.CreateModelMixin,
     @action(methods=['get'], detail=False)
     def search(self, request):
         query = self.request.GET.get('q')
+        url = request.build_absolute_uri('/')
         object_list = Category.objects.filter(
             Q(name__icontains=query) | Q(
                 descr__icontains=query) | Q(slug__icontains=query)
         )
-        return Response(CategoriesSerializer(object_list, many=True).data)
+        return Response([{'id': c.id, 'name': c.name, 'slug': c.slug, 'descr': c.descr, 'img': url + 'media/'+str(c.img)} for c in object_list])
 
 
 class FeedbackAPIView(mixins.CreateModelMixin,
