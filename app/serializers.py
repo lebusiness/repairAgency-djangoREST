@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 User = get_user_model()
-# представление моделей в json
 
 class ServicesSerializer(serializers.ModelSerializer):
 
@@ -42,13 +41,11 @@ class CartSerializer(serializers.ModelSerializer):
     fields = ('id', 'user', 'rel_services')
 
 class CategorySerializer(serializers.ModelSerializer):
-  # из таблицы Category возращает поля field
   class Meta:
     model = Category
     fields = ('id', 'name')
 
 class OrderSerializer(serializers.ModelSerializer):
-  # из таблицы Category возращает поля field
   class Meta:
     model = Order
     fields = ('services', 'number', 'price', 'user', 'address')

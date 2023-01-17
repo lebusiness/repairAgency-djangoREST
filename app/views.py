@@ -59,7 +59,7 @@ class CategoriesAPIView(mixins.CreateModelMixin,
 
 class FeedbackAPIView(mixins.CreateModelMixin,
                       GenericViewSet):
-    # класс, отвечающий за кол-во ключей и за конверт в JSON
+
     serializer_class = FeedbacksSerializer
     queryset = Category.objects.all()
     pagination_class = PaginagitonDefault
@@ -70,7 +70,7 @@ class ServiceAPIView(mixins.CreateModelMixin,
                      mixins.UpdateModelMixin,
                      mixins.ListModelMixin,
                      GenericViewSet):
-    # класс, отвечающий за кол-во ключей и за конверт в JSON
+
     serializer_class = ServicesSerializer
     lookup_field = "slug"
     queryset = Service.objects.all()
